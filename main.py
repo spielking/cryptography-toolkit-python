@@ -4,7 +4,10 @@ from tkinter import messagebox
 
 eng_alphabet = "abcdefghijklmnopqrstuvwxyz"
 ger_alphabet = "abcdefghijklmnopqrstuvwxyzäöüß"
+spa_alphabet = "abcdefghijklmnopqrstuvwxyzáéíóúñü"
+fra_alphabet = "abcdefghijklmnopqrstuvwxyzàâæçéèêëîïôœùûüÿ"
 ukr_alphabet = "абвгґдеєжзиіїйклмнопрстуфхцчшщьюя"
+rus_alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 
 def Copyright():
     win = Toplevel()
@@ -35,9 +38,18 @@ def CaesarCipher(text, key, decrypt=False):
         elif char in ger_alphabet:
             idx = (ger_alphabet.index(char) + shift) % len(ger_alphabet)
             result += ger_alphabet[idx]
+        elif char in spa_alphabet:
+            idx = (spa_alphabet.index(char) + shift) % len(spa_alphabet)
+            result += spa_alphabet[idx]
+        elif char in fra_alphabet:
+            idx = (fra_alphabet.index(char) + shift) % len(fra_alphabet)
+            result += fra_alphabet[idx]
         elif char in ukr_alphabet:
             idx = (ukr_alphabet.index(char) + shift) % len(ukr_alphabet)
             result += ukr_alphabet[idx]
+        elif char in rus_alphabet:
+            idx = (rus_alphabet.index(char) + shift) % len(rus_alphabet)
+            result += rus_alphabet[idx]
         else:
             result += char
     return result
@@ -47,7 +59,7 @@ def handle_process():
     if any(char.isdigit() for char in text):
         messagebox.showerror('Error', 'Your input have some numbers, fix this!')
         return
-    allowed_chars = eng_alphabet + ger_alphabet + ukr_alphabet + " "
+    allowed_chars = eng_alphabet + ger_alphabet + ukr_alphabet + rus_alphabet + spa_alphabet + fra_alphabet + " "
     
     for char in text:
         if char not in allowed_chars:
@@ -204,8 +216,20 @@ def RSAEncryptText(text, e, N):
             M = ger_alphabet.index(char)
             C = pow(M, e, N)
             encrypted.append(str(C))
+        if char in fra_alphabet:
+            M = fra_alphabet.index(char)
+            C = pow(M, e, N)
+            encrypted.append(str(C))
+        if char in spa_alphabet:
+            M = spa_alphabet.index(char)
+            C = pow(M, e, N)
+            encrypted.append(str(C))
         if char in eng_alphabet:
             M = eng_alphabet.index(char)
+            C = pow(M, e, N)
+            encrypted.append(str(C))
+        if char in rus_alphabet:
+            M = rus_alphabet.index(char)
             C = pow(M, e, N)
             encrypted.append(str(C))
     return ", ".join(encrypted)
